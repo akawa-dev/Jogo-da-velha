@@ -36,11 +36,11 @@ def verificar_empate(tabuleiro):
 # jogo
 def jogar():
    tabuleiro = inicializar_tabuleiro()
-   jogador_atual = "X"
-   
+   jogador = "X"
+
    while True:
        exibir_tabuleiro(tabuleiro)
-       print(f"Jogador {jogador_atual}, é sua vez!")
+       print(f"Jogador {jogador}, é sua vez!")
 
        #entrada
        try:
@@ -48,11 +48,11 @@ def jogar():
            coluna = int(input("Escolha a coluna (0-2): "))
 
            if tabuleiro[linha][coluna] == " ":
-               tabuleiro[linha][coluna] = jogador_atual
+               tabuleiro[linha][coluna] = jogador
 
                if verificar_vencedor(tabuleiro):
                    exibir_tabuleiro(tabuleiro)
-                   print(f"Jogador {jogador_atual} venceu!")
+                   print(f"Jogador {jogador} venceu!")
                    break
 
                if verificar_empate(tabuleiro):
