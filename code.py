@@ -2,8 +2,12 @@ from bot import bot_facil, bot_medio
 
 # Escolha do modo
 modo = int(input("Escolha um modo \n1 - Multiplayer Local \n2 - Contra a Máquina \n"))
+
+# Dificuldade
+dificuldade = 1
 if modo == 2: 
-    int(input("Selecione a dificuldade \n1 - Fácil \n2 - Médio \n3 - Difícil"))
+    dificuldade = int(input("Selecione a dificuldade do jogo\n1 - Fácil \n2 - Médio \n3 - Difícil \n"))
+
 # criar o tabuleiro
 def inicializar_tabuleiro():
    return [[" " for _ in range(3)] for _ in range(3)]
@@ -15,21 +19,21 @@ def exibir_tabuleiro(tabuleiro):
        print("-" * 5)
 
 # Verificar vitória
-def verificar_vencedor(tabuleiro):
+def verificar_vencedor(tabuleiro, jogador):
+    # linhas
+    for i in range(3):
+        if tabuleiro[i][0] == tabuleiro[i][1] == tabuleiro[i][2] == jogador:
+            return True
+        if tabuleiro[0][i] == tabuleiro[1][i] == tabuleiro[2][i] == jogador:
+            return True
 
-   # linhas e colunas
-   for i in range(3):
-       if tabuleiro[i][0] == tabuleiro[i][1] == tabuleiro[i][2] != " ":
-           return True
-       if tabuleiro[0][i] == tabuleiro[1][i] == tabuleiro[2][i] != " ":
-           return True
+    # diagonais
+    if tabuleiro[0][0] == tabuleiro[1][1] == tabuleiro[2][2] == jogador:
+        return True
+    if tabuleiro[0][2] == tabuleiro[1][1] == tabuleiro[2][0] == jogador:
+        return True
 
-   # diagonais
-   if tabuleiro[0][0] == tabuleiro[1][1] == tabuleiro[2][2] != " ":
-       return True
-   if tabuleiro[0][2] == tabuleiro[1][1] == tabuleiro[2][0] != " ":
-       return True
-   return False
+    return False
 
 # Verificar empate
 def verificar_empate(tabuleiro):
@@ -47,37 +51,49 @@ def jogar():
        exibir_tabuleiro(tabuleiro)
        print(f"Jogador {jogador}, é sua vez!")
 
-       #entrada
+       #entrada 
        try:
-           linha = int(input("Escolha a linha (0-2): "))
-           coluna = int(input("Escolha a coluna (0-2): "))
 
-           if tabuleiro[linha][coluna] == " ":
-               tabuleiro[linha][coluna] = jogador
+            if jogador == "O" and modo == 2:
+                if dificuldade == 1:
+                    linha, coluna = bot_facil(tabuleiro)
+                
+                elif dificuldade == 2:
+                    linha, coluna = bot_medio(tabuleiro, verificar_vencedor)
+                print("Bot jogou, é sua  vez!")
 
-               if verificar_vencedor(tabuleiro):
-                   exibir_tabuleiro(tabuleiro)
-                   print(f"Jogador {jogador} venceu!")
-                   break
+            else:
+                linha = int(input("Escolha a linha (0-2): "))
+                coluna = int(input("Escolha a coluna (0-2): "))
 
-               if verificar_empate(tabuleiro):
-                   exibir_tabuleiro(tabuleiro)
-                   print("Empate!")
-                   break
+            if tabuleiro[linha][coluna] == " ":
+                tabuleiro[linha][coluna] = jogador
 
-                 # trocar jogador
-               if jogador == "X":
-                jogador = "O"
-               else:
-                jogador = "X"
+                if verificar_vencedor(tabuleiro, jogador):
+                    exibir_tabuleiro(tabuleiro)
+                    print(f"Jogador {jogador} venceu!")
+                    break
 
-             # posição ocupada
-           else:
-               print("Posição já ocupada. Tente novamente.")
+                if verificar_empate(tabuleiro):
+                    exibir_tabuleiro(tabuleiro)
+                    print("Empate!")
+                    break
+
+                    # trocar jogador
+                if jogador == "X":
+                    jogador = "O"
+                else:
+                    jogador = "X"
+
+                # posição ocupada
+            else:
+                print("Posição já ocupada. Tente novamente.")
 
        #entrada com valores errados
        except (ValueError, IndexError):
            print("Entrada inválida. Escolha números entre 0 e 2.")
+
+           
 # Iniciar
 jogar()
 
