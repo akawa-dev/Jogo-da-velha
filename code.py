@@ -1,4 +1,4 @@
-from bot import bot_facil, bot_medio
+from bot import bot_facil, bot_medio, bot_dificil
 
 # Escolha do modo
 modo = int(input("Escolha um modo \n1 - Multiplayer Local \n2 - Contra a Máquina \n"))
