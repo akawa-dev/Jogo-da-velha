@@ -94,6 +94,11 @@ def jogar():
            print("Entrada inválida. Escolha números entre 0 e 2.")
 
            
-# Iniciar
-jogar()
+# Iniciar e/ou jogar denovo
+while True:
+    jogar()
+    resposta = input("\nDeseja jogar novamente? (s/n): /n").strip().lower()
+    if resposta != "s":
+        print("Obrigado por jogar! Até logo!")
+        break
 

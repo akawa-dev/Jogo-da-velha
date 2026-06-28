@@ -1,6 +1,6 @@
 import random
 
-
+# Jogadas disponíveis
 def jogadas_livres(tabuleiro):
     livres = []
     for i in range(3):
@@ -10,14 +10,14 @@ def jogadas_livres(tabuleiro):
     return livres
 
 
-# bot  fácil
+# Bot  fácil
 def bot_facil(tabuleiro):
     return random.choice(jogadas_livres(tabuleiro))
 
 
-# bot médio
+# Bot médio
 def bot_medio(tabuleiro):
-    # 1. tenta ganhar
+    # tenta ganhar
     for i, j in jogadas_livres(tabuleiro):
         tabuleiro[i][j] = "O"
         if venceu(tabuleiro, "O"):
@@ -25,7 +25,7 @@ def bot_medio(tabuleiro):
             return (i, j)
         tabuleiro[i][j] = " "
 
-    # 2. tenta impedir
+    # tenta impedir
     for i, j in jogadas_livres(tabuleiro):
         tabuleiro[i][j] = "X"
         if venceu(tabuleiro, "X"):
@@ -33,7 +33,7 @@ def bot_medio(tabuleiro):
             return (i, j)
         tabuleiro[i][j] = " "
 
-    # 3. aleatório
+    # aleatório
     return bot_facil(tabuleiro)
 
 
