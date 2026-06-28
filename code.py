@@ -1,4 +1,9 @@
+from bot import bot_facil, bot_medio
 
+# Escolha do modo
+modo = int(input("Escolha um modo \n1 - Multiplayer Local \n2 - Contra a Máquina \n"))
+if modo == 2: 
+    int(input("Selecione a dificuldade \n1 - Fácil \n2 - Médio \n3 - Difícil"))
 # criar o tabuleiro
 def inicializar_tabuleiro():
    return [[" " for _ in range(3)] for _ in range(3)]
@@ -37,7 +42,7 @@ def verificar_empate(tabuleiro):
 def jogar():
    tabuleiro = inicializar_tabuleiro()
    jogador = "X"
-
+   
    while True:
        exibir_tabuleiro(tabuleiro)
        print(f"Jogador {jogador}, é sua vez!")
