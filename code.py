@@ -12,7 +12,7 @@ def exibir_tabuleiro(tabuleiro):
 # Verificar vitória
 def verificar_vencedor(tabuleiro):
 
-   # por linhas e colunas
+   # linhas e colunas
    for i in range(3):
        if tabuleiro[i][0] == tabuleiro[i][1] == tabuleiro[i][2] != " ":
            return True
@@ -37,27 +37,42 @@ def verificar_empate(tabuleiro):
 def jogar():
    tabuleiro = inicializar_tabuleiro()
    jogador_atual = "X"
+   
    while True:
        exibir_tabuleiro(tabuleiro)
        print(f"Jogador {jogador_atual}, é sua vez!")
+
+       #entrada
        try:
            linha = int(input("Escolha a linha (0-2): "))
            coluna = int(input("Escolha a coluna (0-2): "))
+
            if tabuleiro[linha][coluna] == " ":
                tabuleiro[linha][coluna] = jogador_atual
+
                if verificar_vencedor(tabuleiro):
                    exibir_tabuleiro(tabuleiro)
                    print(f"Jogador {jogador_atual} venceu!")
                    break
+
                if verificar_empate(tabuleiro):
                    exibir_tabuleiro(tabuleiro)
                    print("Empate!")
                    break
-               jogador_atual = "O" if jogador_atual == "X" else "X"
+
+                 # trocar jogador
+               if jogador == "X":
+                jogador = "O"
+               else:
+                jogador = "X"
+
+             # posição ocupada
            else:
                print("Posição já ocupada. Tente novamente.")
+
+       #entrada com valores errados
        except (ValueError, IndexError):
            print("Entrada inválida. Escolha números entre 0 e 2.")
 # Iniciar
 jogar()
-#k
+
