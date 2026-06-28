@@ -97,8 +97,9 @@ def jogar():
 # Iniciar e/ou jogar denovo
 while True:
     jogar()
-    resposta = input("\nDeseja jogar novamente? (s/n): /n").strip().lower()
-    if resposta != "s":
-        print("Obrigado por jogar! Até logo!")
+    resposta = input("\nDeseja jogar novamente? (s/n): \n").strip().lower()
+    if resposta == "s":
+        print("Reiniciando o jogo...")
+    else:
         break
 
