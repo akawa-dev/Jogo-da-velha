@@ -1,12 +1,6 @@
 from bot import bot_facil, bot_medio, bot_dificil
 
-# Escolha do modo
-modo = int(input("Escolha um modo \n1 - Multiplayer Local \n2 - Contra a Máquina \n"))
 
-# dificuldade
-dificuldade = 1
-if modo == 2: 
-    dificuldade = int(input("Selecione a dificuldade do jogo\n1 - Fácil \n2 - Médio \n3 - Difícil \n"))
 
 # criar o tabuleiro
 def inicializar_tabuleiro():
@@ -45,7 +39,8 @@ def verificar_empate(tabuleiro):
 # jogo
 def jogar():
    tabuleiro = inicializar_tabuleiro()
-   jogador = "X"
+   jogador = proximo_inicio
+   
    
    while True:
        exibir_tabuleiro(tabuleiro)
@@ -75,8 +70,10 @@ def jogar():
 
                 if verificar_vencedor(tabuleiro, jogador):
                     exibir_tabuleiro(tabuleiro)
-                    print(f"Jogador {jogador} venceu!")
-                    break
+                    print(f"Jogador {jogador} venceu!\n")
+                    vencedor = jogador
+                    return vencedor
+                    
 
                 if verificar_empate(tabuleiro):
                     exibir_tabuleiro(tabuleiro)
@@ -91,18 +88,39 @@ def jogar():
 
                 # posição ocupada
             else:
-                print("Posição já ocupada. Tente novamente.")
+                print("Posição já ocupada. Tente novamente.\n")
 
        #entrada com valores errados
        except (ValueError, IndexError):
-           print("Entrada inválida. Escolha números entre 0 e 2.")
+           print("Entrada inválida. Escolha números entre 0 e 2.\n")
 
            
-# Iniciar e/ou jogar denovo
+# Iniciar 
+proximo_inicio = "X"
 while True:
-    jogar()
+    # Escolha do modo
+    modo = int(input("Escolha um modo \n1 - Multiplayer Local \n2 - Contra a Máquina \n"))
+
+    # dificuldade
+    dificuldade = 1
+    if modo == 2: 
+     dificuldade = int(input("Selecione a dificuldade do jogo\n1 - Fácil \n2 - Médio \n3 - Difícil \n"))
+
+    vencedor = jogar()
+    
+    # Trocar de jogador inicial
+    if vencedor == "X":
+        proximo_inicio = "O"
+    elif vencedor == "O":
+        proximo_inicio = "X"
+        # empate
+    else:
+        proximo_inicio = "X"  
+
+    # jogar denovo ou não
     resposta = input("\nDeseja jogar novamente? (s/n): \n").strip().lower()
     if resposta == "s":
-        print("Reiniciando o jogo...")
+        print("Reiniciando o jogo...\n")
     else:
+        print("Encerrando o jogo...\n")
         break

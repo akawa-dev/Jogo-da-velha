@@ -36,7 +36,7 @@ def bot_medio(tabuleiro, venceu):
     return bot_facil(tabuleiro)
 
 # Bot difícil — algoritmo Minimax (imbatível)
-def bot_dificil(tabuleiro, venceu):
+def minimax(tabuleiro, venceu, profundidade, maximizando):
     '''Avalia recursivamente o tabuleiro e retorna a pontuação da jogada.'''
     # Caso o bot (O) tenha ganho
     if venceu(tabuleiro, "O"):
@@ -49,10 +49,10 @@ def bot_dificil(tabuleiro, venceu):
         return 0
 
     if maximizando:  # vez do bot (O) — quer maximizar
-        melhor = float("inf")
+        melhor = -float("inf")
         for i, j in jogadas_livres(tabuleiro):
             tabuleiro[i][j] = "O"
-            pontos = bot_dificil(tabuleiro, venceu, profundidade + 1, False)
+            pontos = minimax(tabuleiro, venceu, profundidade + 1, False)
             tabuleiro[i][j] = " "
             melhor = max(melhor, pontos)
         return melhor
@@ -60,7 +60,7 @@ def bot_dificil(tabuleiro, venceu):
         melhor = float("inf")
         for i, j in jogadas_livres(tabuleiro):
             tabuleiro[i][j] = "X"
-            pontos = bot_dificil(tabuleiro, venceu, profundidade + 1, True)
+            pontos = minimax(tabuleiro, venceu, profundidade + 1, True)
             tabuleiro[i][j] = " "
             melhor = min(melhor, pontos)
         return melhor
@@ -68,17 +68,20 @@ def bot_dificil(tabuleiro, venceu):
 
 def bot_dificil(tabuleiro, venceu):
     """Escolhe a melhor jogada possível usando Minimax."""
-    melhor_pontos = float("inf")
+    melhor_pontos = -float("inf")
     melhor_jogada = None
 
     for i, j in jogadas_livres(tabuleiro):
         tabuleiro[i][j] = "O"
-        pontos = bot_dificil(tabuleiro, venceu, 0, False)
+        pontos = minimax(tabuleiro, venceu, 0, False)
         tabuleiro[i][j] = " "
 
         if pontos > melhor_pontos:
             melhor_pontos = pontos
             melhor_jogada = (i, j)
+    
+    if melhor_jogada is None:
+     return random.choice(jogadas_livres(tabuleiro))
 
     return melhor_jogada
 
