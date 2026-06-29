@@ -1,6 +1,6 @@
 import random
 
-# Jogadas disponíveis
+# jogadas disponíveis
 def jogadas_livres(tabuleiro):
     livres = []
     for i in range(3):
@@ -10,12 +10,12 @@ def jogadas_livres(tabuleiro):
     return livres
 
 
-# Bot fácil — jogada aleatória
+# bot fácil 
 def bot_facil(tabuleiro):
     return random.choice(jogadas_livres(tabuleiro))
 
 
-# Bot médio — ganha se puder, bloqueia se necessário, senão aleatório
+# bot médio
 def bot_medio(tabuleiro, venceu):
     # tenta ganhar
     for i, j in jogadas_livres(tabuleiro):
@@ -33,12 +33,11 @@ def bot_medio(tabuleiro, venceu):
             return (i, j)
         tabuleiro[i][j] = " "
 
-    # aleatório
     return bot_facil(tabuleiro)
 
 # Bot difícil — algoritmo Minimax (imbatível)
-def minimax(tabuleiro, venceu, profundidade, maximizando):
-    """Avalia recursivamente o tabuleiro e retorna a pontuação da jogada."""
+def bot_dificil(tabuleiro, venceu):
+    '''Avalia recursivamente o tabuleiro e retorna a pontuação da jogada.'''
     # Caso o bot (O) tenha ganho
     if venceu(tabuleiro, "O"):
         return 10 - profundidade
@@ -50,10 +49,10 @@ def minimax(tabuleiro, venceu, profundidade, maximizando):
         return 0
 
     if maximizando:  # vez do bot (O) — quer maximizar
-        melhor = -float("inf")
+        melhor = float("inf")
         for i, j in jogadas_livres(tabuleiro):
             tabuleiro[i][j] = "O"
-            pontos = minimax(tabuleiro, venceu, profundidade + 1, False)
+            pontos = bot_dificil(tabuleiro, venceu, profundidade + 1, False)
             tabuleiro[i][j] = " "
             melhor = max(melhor, pontos)
         return melhor
@@ -61,7 +60,7 @@ def minimax(tabuleiro, venceu, profundidade, maximizando):
         melhor = float("inf")
         for i, j in jogadas_livres(tabuleiro):
             tabuleiro[i][j] = "X"
-            pontos = minimax(tabuleiro, venceu, profundidade + 1, True)
+            pontos = bot_dificil(tabuleiro, venceu, profundidade + 1, True)
             tabuleiro[i][j] = " "
             melhor = min(melhor, pontos)
         return melhor
@@ -69,17 +68,17 @@ def minimax(tabuleiro, venceu, profundidade, maximizando):
 
 def bot_dificil(tabuleiro, venceu):
     """Escolhe a melhor jogada possível usando Minimax."""
-    melhor_pontos = -float("inf")
+    melhor_pontos = float("inf")
     melhor_jogada = None
 
     for i, j in jogadas_livres(tabuleiro):
         tabuleiro[i][j] = "O"
-        pontos = minimax(tabuleiro, venceu, 0, False)
+        pontos = bot_dificil(tabuleiro, venceu, 0, False)
         tabuleiro[i][j] = " "
 
         if pontos > melhor_pontos:
             melhor_pontos = pontos
-            smelhor_jogada = (i, j)
+            melhor_jogada = (i, j)
 
     return melhor_jogada
 

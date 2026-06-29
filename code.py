@@ -3,7 +3,7 @@ from bot import bot_facil, bot_medio, bot_dificil
 # Escolha do modo
 modo = int(input("Escolha um modo \n1 - Multiplayer Local \n2 - Contra a Máquina \n"))
 
-# Dificuldade
+# dificuldade
 dificuldade = 1
 if modo == 2: 
     dificuldade = int(input("Selecione a dificuldade do jogo\n1 - Fácil \n2 - Médio \n3 - Difícil \n"))
@@ -54,12 +54,16 @@ def jogar():
        #entrada 
        try:
 
-            if jogador == "O" and modo == 2:
+            if modo == 2 and jogador == "O":
                 if dificuldade == 1:
                     linha, coluna = bot_facil(tabuleiro)
                 
                 elif dificuldade == 2:
                     linha, coluna = bot_medio(tabuleiro, verificar_vencedor)
+                
+                elif dificuldade == 3:
+                    jogada = bot_dificil(tabuleiro, verificar_vencedor)
+                    linha, coluna = jogada
                 print("Bot jogou, é sua  vez!")
 
             else:
@@ -102,4 +106,3 @@ while True:
         print("Reiniciando o jogo...")
     else:
         break
-
