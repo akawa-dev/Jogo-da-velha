@@ -53,7 +53,7 @@ def verificar_empate(tabuleiro):
 
 
 # ─── Partida ───────────────────────────────────────────────────────────────────
-def jogar():
+def jogar(modo, dificuldade):
     tabuleiro = inicializar_tabuleiro()
     jogador = proximo_inicio
 
@@ -116,7 +116,7 @@ while True:
     # Exibir placar antes de iniciar a partida
     exibir_placar(modo)
 
-    vencedor = jogar()
+    vencedor = jogar(modo, dificuldade)
 
     # Exibir placar atualizado ao final da partida
     exibir_placar(modo)
@@ -127,7 +127,7 @@ while True:
     elif vencedor == "O":
         proximo_inicio = "X"
     else:
-        proximo_inicio = "X"  # empate
+        proximo_inicio = "O" if proximo_inicio == "X" else "X"  # alterna no empate
 
     # Jogar de novo ou não
     resposta = input("\nDeseja jogar novamente? (s/n): \n").strip().lower()
