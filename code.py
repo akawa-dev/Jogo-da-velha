@@ -1,8 +1,11 @@
 from bot import bot_facil, bot_medio, bot_dificil
 
+from ranking import salvar_ou_atualizar_jogador, exibir_ranking
 
 # ─── Placar ────────────────────────────────────────────────────────────────────
 placar = {"X": 0, "O": 0, "Empates": 0}
+nome_jogador = input("Digite seu nome para o ranking: ").strip()
+historico_sessao = {"vitorias": 0, "derrotas": 0, "empates": 0}
 
 def exibir_placar(modo):
     print("\n" + "=" * 30)
@@ -82,14 +85,19 @@ def jogar(modo, dificuldade):
                     exibir_tabuleiro(tabuleiro)
                     if modo == 2 and jogador == "O":
                         print("Bot venceu! Melhor sorte na próxima.\n")
+                        historico_sessao["derrotas"] += 1
                     else:
                         print(f"Jogador {jogador} venceu!\n")
+                        if modo == 2 and jogador == "X":
+                            historico_sessao["vitorias"] += 1
                     placar[jogador] += 1
                     return jogador
 
                 if verificar_empate(tabuleiro):
                     exibir_tabuleiro(tabuleiro)
                     print("Empate!")
+                    if modo == 2:
+                        historico_sessao["empates"] += 1
                     placar["Empates"] += 1
                     return None
 
@@ -134,5 +142,29 @@ while True:
     if resposta == "s":
         print("Reiniciando o jogo...\n")
     else:
+        print("Computando sua pontuação final...")
+
+        # Define os pesos baseado na variável 'dificuldade' que foi usada
+        if dificuldade == 1:    # Dificuldade Fácil
+            p_vit, p_der = 5, 2
+        elif dificuldade == 2:  # Dificuldade Média
+            p_vit, p_der = 10, 5
+        else:                   # Dificuldade Difícil
+            p_vit, p_der = 20, 15
+            
+        # Calcula o saldo da sessão contra a máquina
+        pontos_ganhos = historico_sessao["vitorias"] * p_vit
+        pontos_perdidos = historico_sessao["derrotas"] * p_der
+        saldo_pontos = pontos_ganhos - pontos_perdidos
+            
+        # Grava os pontos usando a sua função importada do ranking.py
+        salvar_ou_atualizar_jogador(nome_jogador, saldo_pontos)
+
+        if saldo_pontos >= 0:
+            print(f"\nPontuação da rodada: +{saldo_pontos} pts.");
+        else:
+            print(f"\nPontuação da rodada: {saldo_pontos} pts.");
+
+        exibir_ranking()
         print("Encerrando o jogo...\n")
         break

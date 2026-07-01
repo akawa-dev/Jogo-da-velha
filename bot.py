@@ -84,4 +84,3 @@ def bot_dificil(tabuleiro, venceu):
         return random.choice(jogadas_livres(tabuleiro))
 
     return melhor_jogada
-
