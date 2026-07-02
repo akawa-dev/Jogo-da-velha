@@ -73,7 +73,7 @@ def bot_dificil(tabuleiro, venceu):
 
     for i, j in jogadas_livres(tabuleiro):
         tabuleiro[i][j] = "O"
-        pontos = minimax(tabuleiro, venceu, 0, False)
+        pontos = minimax(tabuleiro, venceu, 1, False)
         tabuleiro[i][j] = " "
 
         if pontos > melhor_pontos:
@@ -81,7 +81,6 @@ def bot_dificil(tabuleiro, venceu):
             melhor_jogada = (i, j)
     
     if melhor_jogada is None:
-     return random.choice(jogadas_livres(tabuleiro))
+        return random.choice(jogadas_livres(tabuleiro))
 
     return melhor_jogada
-
