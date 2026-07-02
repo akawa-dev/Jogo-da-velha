@@ -1,4 +1,5 @@
 from bot import bot_facil, bot_medio, bot_dificil
+from colorama import Fore, Style, init
 
 
 
